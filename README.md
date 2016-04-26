@@ -11,6 +11,12 @@ Bring your today's events in [Google Calendar](https://www.google.com/calendar/)
 - [Google Calendar API](https://console.cloud.google.com/apis)
   - You may also genrate your token by running this script if you get the credentials
 
+## References
+
+- [google/google-api-ruby-client](https://github.com/google/google-api-ruby-client)
+- [API Client Library for Ruby (Alpha)](https://developers.google.com/api-client-library/ruby/)
+- [Idobata.io](https://idobata.io/) - The fountain of communication for twenty-first-century developers.
+
 ## License 
 
 The MIT License (MIT)
