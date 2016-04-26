@@ -105,7 +105,7 @@ msg.gsub!("00:00", "&nbsp;メモ&nbsp;")
 puts msg
 
 # Send a message to Idobata
-Idobata.hook_url = ENV['IDOBATA_SANDBOX']
-#Idobata.hook_url = ENV['IDOBATA_LOUNGE']
+#Idobata.hook_url = ENV['IDOBATA_SANDBOX']
+Idobata.hook_url = ENV['IDOBATA_LOUNGE']
 Idobata::Message.create(source: msg, format: :html) unless msg.empty?
 
