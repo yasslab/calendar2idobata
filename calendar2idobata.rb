@@ -10,7 +10,6 @@ require 'multi_json'
 
 OOB_URI          = 'urn:ietf:wg:oauth:2.0:oob'
 APPLICATION_NAME = 'Ruby Quickstart'
-SECRETS_PATH = File.join("./", 'tmp', "calendar-secrets.yaml")
 TOKENS_PATH  = File.join("./", 'tmp', "calendar-tokens.yaml")
 
 SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
@@ -41,14 +40,10 @@ module Google
   end
 end
 
-
 def authorize
-  FileUtils.mkdir_p(File.dirname(SECRETS_PATH))
-
-  #client_id   = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
   client_id   = Google::Auth::ClientId.from_hash(MultiJson.load(ENV["GOOGLE_SECRETS"]))
 
-  #token_store = Google::Auth::Stores::FileTokenStore.new(file: SECRETS_PATH)
+  FileUtils.mkdir_p(File.dirname(TOKENS_PATH))
   File.open(TOKENS_PATH, "w") do |f|
     y = ENV["GOOGLE_TOKENS"].gsub("%", "\'")
     puts y
