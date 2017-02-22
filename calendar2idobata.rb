@@ -73,28 +73,33 @@ service = Google::Apis::CalendarV3::CalendarService.new
 service.client_options.application_name = APPLICATION_NAME
 service.authorization = authorize
 
-# Fetch today's events
-calendar_id = ENV['CALENDAR_ID']
-today    = Date.today.strftime('%Y-%m-%dT00:00:00+09:00')
-tomorrow = (Date.today + 1).strftime('%Y-%m-%dT00:00:00+09:00')
-response = service.list_events(
+# Fetch today's events for Google Calendar(s)
+calendar_ids = ENV['CALENDAR_IDS'].split(',')
+responses   = []
+calendar_ids.each do |calendar_id|
+  today    = (Date.today).strftime('%Y-%m-%dT00:00:00+09:00')
+  tomorrow = (Date.today + 1).strftime('%Y-%m-%dT00:00:00+09:00')
+  responses << service.list_events(
                         calendar_id,
                         time_min: today,
                         time_max: tomorrow)
-
-# Generate a message
-msg =  ""
-events = { }
-response.items.each do |event|
-  next if event.start.nil?
-  start = "00:00"  if event.start.date
-  start = start    || event.start.date_time.strftime("%H:%M")
-  events[start] = event.summary
 end
 
-events.sort_by{|start,summary| start.delete(":").to_i }.to_h.each do |start,summary|
-  next if summary.include? "Private"
-  msg += "<span class='label label-info'>#{start}</span> - #{summary}<br />"
+# Generate a message
+msg    = ""
+events = []
+responses.each do |response|
+  response.items.each do |event|
+    next if event.start.nil?
+    start = "00:00"  if event.start.date
+    start = start    || event.start.date_time.strftime("%H:%M")
+    events << { start: start, summary: event.summary }
+  end
+end
+
+events.sort_by{|h| h[:start].delete(':').to_i }.each do |hash|
+  next if hash[:summary].include? "Private"
+  msg += "<span class='label label-info'>#{hash[:start]}</span> - #{hash[:summary]}<br />"
 end
 msg.gsub!("00:00", "&nbsp;メモ&nbsp;")
 puts msg
