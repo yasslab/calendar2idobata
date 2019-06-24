@@ -2,7 +2,7 @@
 
 Bring your today's events in [Google Calendar](https://www.google.com/calendar/) to [Idobata](http://idobata.io).
 
-![Screenshot](https://dl.dropboxusercontent.com/u/2819285/ss_calendar2idobata.png)
+![Screenshot of calendar2idobata](https://i.gyazo.com/1eec967de058a46a0f5e235544c73575.png)
 
 ## Requirements
 
